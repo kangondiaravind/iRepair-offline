@@ -1,4 +1,4 @@
-# Service Center app (Phase 1, offline)
+# Service Center app 
 
 Android app for a mobile and laptop service center: customers, repair jobs, advance and balance payments,
 per-job expenses, walk-in enquiries, staff PIN login, and daily and monthly reports. Everything is stored
@@ -11,8 +11,6 @@ on the phone in Room. No internet is needed.
    Room 2.6.1, Compose BOM 2024.09.03). Newer Android Studio may offer to upgrade: use its Upgrade Assistant,
    and re-check KSP/Hilt compatibility after each step.
 3. Run on a device or emulator with Android 8.0 (API 26) or higher.
-
-This code was written without being compiled. Expect to fix a few small compile errors on the first build.
 
 ## First launch
 1. The app asks for the owner's name and a 4-digit PIN.
@@ -30,11 +28,3 @@ This code was written without being compiled. Expect to fix a few small compile 
 - `data/auth`, `data/repository`: business rules and permission checks
 - `ui/*`: Compose screens and ViewModels
 - `ui/nav/AppNav.kt`: login, owner setup, bottom navigation, routes
-
-## Known gaps (Phase 2)
-- No lockout after wrong PIN attempts. A 4-digit PIN is a convenience lock, not strong security.
-- No backup, restore, or sync yet. Supabase sync and the web Admin Panel are Phase 2.
-  Exclude the `customer_seq` and `job_seq` settings from sync (device-local counters).
-- No receipts, PDF export, or photos.
-- No automated tests.
-- Default launcher icon.
