@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -25,6 +26,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
@@ -55,7 +58,7 @@ fun AppTopBar(
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
-        title = { Text(title) },
+        title = { Text(title, style = MaterialTheme.typography.titleLarge) },
         navigationIcon = {
             if (onBack != null) {
                 IconButton(onClick = onBack) {
@@ -63,7 +66,10 @@ fun AppTopBar(
                 }
             }
         },
-        actions = actions
+        actions = actions,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background
+        )
     )
 }
 
@@ -90,6 +96,7 @@ fun Field(
         singleLine = minLines == 1,
         keyboardOptions = KeyboardOptions(keyboardType = keyboard),
         prefix = prefixSlot,
+        shape = MaterialTheme.shapes.medium,
         visualTransformation = if (password) PasswordVisualTransformation() else VisualTransformation.None
     )
 }
@@ -114,7 +121,12 @@ fun PrimaryButton(
     modifier: Modifier = Modifier.fillMaxWidth(),
     enabled: Boolean = true
 ) {
-    Button(onClick = onClick, modifier = modifier, enabled = enabled) { Text(text) }
+    Button(
+        onClick = onClick,
+        modifier = modifier.heightIn(min = 52.dp),
+        enabled = enabled,
+        shape = MaterialTheme.shapes.medium
+    ) { Text(text) }
 }
 
 @Composable
@@ -124,7 +136,12 @@ fun SecondaryButton(
     modifier: Modifier = Modifier.fillMaxWidth(),
     enabled: Boolean = true
 ) {
-    OutlinedButton(onClick = onClick, modifier = modifier, enabled = enabled) { Text(text) }
+    OutlinedButton(
+        onClick = onClick,
+        modifier = modifier.heightIn(min = 52.dp),
+        enabled = enabled,
+        shape = MaterialTheme.shapes.medium
+    ) { Text(text) }
 }
 
 enum class Tone { Neutral, Good, Warn, Info }
@@ -157,7 +174,11 @@ fun statusTone(statusId: String): Tone = when (statusId) {
 @Composable
 fun ErrorBanner(message: String?) {
     if (message == null) return
-    Surface(color = MaterialTheme.colorScheme.errorContainer, shape = RoundedCornerShape(8.dp), modifier = Modifier.fillMaxWidth()) {
+    Surface(
+        color = MaterialTheme.colorScheme.errorContainer,
+        shape = MaterialTheme.shapes.small,
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Text(
             text = message,
             color = MaterialTheme.colorScheme.onErrorContainer,
@@ -183,8 +204,13 @@ fun KeyValueRow(label: String, value: String, bold: Boolean = false) {
 /** Grey rounded block that groups related rows. */
 @Composable
 fun Panel(content: @Composable ColumnScope.() -> Unit) {
-    Surface(color = MaterialTheme.colorScheme.surfaceVariant, shape = RoundedCornerShape(12.dp), modifier = Modifier.fillMaxWidth()) {
-        Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp), content = content)
+    Surface(
+        color = MaterialTheme.colorScheme.surface,
+        shape = MaterialTheme.shapes.medium,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp), content = content)
     }
 }
 
